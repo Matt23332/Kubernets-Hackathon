@@ -1,0 +1,25 @@
+metadata:
+  name: stock-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stock-api
+  template:
+    metadata:
+      labels:
+        app: stock-api
+    spec:
+      containers:
+        - name: stock-api
+          image: widgetario/stock-api
+          volumeMounts:
+            - name: cache
+              mountPath: /cache
+          env:
+            - name: DATABASE_URL
+              value: postgres://user:password@products-db-secondary:5432/dbname
+      volumes:
+        - name: cache
+          persistentVolumeClaim:
+            claimName: stock-cache
