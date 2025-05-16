@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: products-api                   # Service name
+  labels:
+    kubernetes.courselabs.co: hackathon
+    app: widgetario
+spec:
+  ports:
+    - name: http
+      port: 80                        # Service port exposed inside cluster
+      targetPort: http                # Container port targeted by service
+  selector:
+    app: widgetario
+    component: products-api           # Selects pods with these labels
+  type: ClusterIP                    # Default service type, accessible within cluster

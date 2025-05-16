@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: products-api                 # Deployment name
+  labels:
+    kubernetes.courselabs.co: hackathon
+    app: widgetario
+spec:
+  replicas: 2                       # Number of pod replicas
+  selector:
+    matchLabels:
+      app: widgetario
+      component: products-api       # Selector for matching pods
+  template:
+    metadata:
+      labels:
+        app: widgetario
+        component: products-api
+        hackathon: part-1
+    spec:
+      automountServiceAccountToken: false  # Disable default service account token mounting
+      containers:
+        - name: app
+          image: widgetario/products-api:21.03  # Container image
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:                  # Check if pod is ready to serve traffic
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 20
+            failureThreshold: 1
+          livenessProbe:                  # Check if pod is alive and restart if needed
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 30
+            initialDelaySeconds: 20
+          resources:
+            limits:                      # Resource limits for CPU and memory
+              cpu: 300m
+              memory: 300Mi
+          volumeMounts:
+            - name: db-properties        # Mount secret as volume
+              mountPath: "/app/config"
+              readOnly: true
+      volumes:
+        - name: db-properties
+          secret:
+            secretName: products-api-db  # Secret containing DB credentials/config
