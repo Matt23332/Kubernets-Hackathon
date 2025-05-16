@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: products-db                   # Service name for the database
+  labels:
+    kubernetes.courselabs.co: hackathon
+    app: widgetario
+spec:
+  ports:
+    - port: 5432                     # Service port for PostgreSQL
+      targetPort: postgres           # Target container port named "postgres"
+  selector:
+    app: widgetario
+    component: products-db           # Selects pods labeled as the DB component
+  type: ClusterIP
+  clusterIP: None                   # Headless service (no cluster IP), used for direct pod DNS
