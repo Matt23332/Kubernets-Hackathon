@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: widgetario-local
+  labels:
+    kubernetes.courselabs.co: hackathon
+spec:
+  rules:
+    - host: widgetario.local           # Hostname for routing ingress traffic
+      http:
+        paths:
+          - path: /                    # Route all paths under /
+            pathType: Prefix
+            backend:
+              service:
+                name: widgetario-web-internal   # Target service
+                port: 
+                  name: http                   # Target port by name

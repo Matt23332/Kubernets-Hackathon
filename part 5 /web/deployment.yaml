@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web                           # Deployment for the Widgetario web frontend
+  labels:
+    kubernetes.courselabs.co: hackathon
+    app: widgetario
+spec:
+  replicas: 3                        # Run 3 pod replicas for high availability
+  selector:
+    matchLabels:
+      app: widgetario
+      component: web
+  template:
+    metadata:
+      labels:
+        app: widgetario
+        component: web
+        hackathon: part-1
+    spec:
+      automountServiceAccountToken: false
+      securityContext:
+        runAsUser: 65534              # Run container as non-root user 'nobody'
+        runAsGroup: 3000             # Set group ID for container process
+      containers:
+        - name: app
+          image: widgetario/web:21.03
+          ports:
+            - containerPort: 5001
+              name: http
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:5001     # Listen on port 5001
+          envFrom:
+            - configMapRef:
+                name: web-features     # Inject UI config like theme from ConfigMap
+          volumeMounts:
+            - name: api-config
+              mountPath: "/app/secrets" # Mount secret with API config securely (read-only)
+              readOnly: true
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 5
+            failureThreshold: 1        # Quick readiness check
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            periodSeconds: 20
+            initialDelaySeconds: 20    # Liveness check after 20s delay
+          resources:
+            limits:
+              cpu: 200m
+              memory: 150Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - all                   # Drop all Linux capabilities for security
+      volumes:
+        - name: api-config
+          secret:
+            secretName: web-api         # Secret storing API endpoint configs
