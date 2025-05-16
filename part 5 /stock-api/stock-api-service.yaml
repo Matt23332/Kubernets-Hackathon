@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: stock-api                      # Service for stock-api pods
+  labels:
+    kubernetes.courselabs.co: hackathon
+    app: widgetario
+spec:
+  ports:
+    - port: 80
+      targetPort: http                 # Forward port 80 to container's 'http' port (8080)
+  selector:
+    app: widgetario
+    component: stock-api               # Select pods with these labels
+  type: ClusterIP                     # Internal cluster service
