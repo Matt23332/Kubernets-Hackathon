@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-nginx-controller-lb    # LoadBalancer Service for external access
+  namespace: ingress-nginx
+spec:
+  type: LoadBalancer                   # Creates a cloud LB (if supported)
+  ports:
+    - name: http
+      port: 80
+      targetPort: http                 # Maps to container port named "http"
+    - name: https
+      port: 443
+      targetPort: https                # Maps to container port named "https"
+  selector:                           # Selects Pods with these labels
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/component: controller
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-nginx-controller-np    # NodePort Service for cluster node access
+  namespace: ingress-nginx
+spec:
+  type: NodePort                      # Opens ports on cluster nodes
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      nodePort: 30000                 # External port on nodes for HTTP
+    - name: https
+      port: 443
+      targetPort: https
+      nodePort: 30004                 # External port on nodes for HTTPS
+  selector:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/instance: ingress-nginx
+    app.kubernetes.io/component: controller

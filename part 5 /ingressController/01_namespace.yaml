@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace # Namespace definition
+# Namespace for the ingress controller
+metadata:
+  name: ingress-nginx  # Namespace name
+  labels:
+    kubernetes.courselabs.co: hackathon  # Custom label for identification
