@@ -4,41 +4,42 @@ The Widgetario Kubernetes Hackathon is a hands-on, multi-part lab series designe
 ![image](https://github.com/user-attachments/assets/46c865b8-eb1e-47f0-afea-89a48b56536d)
 
 # PROJECT OVERVIEW
-Microservices architecture
+- Microservices architecture
 
-Helm-based deployment
+- Helm-based deployment
 
-CI/CD integration (Jenkins + Gogs)
+- CI/CD integration (Jenkins + Gogs)
 
-Observability with Prometheus, Grafana, and EFK stack
+- Observability with Prometheus, Grafana, and EFK stack
 
-Container registry usage
+- Container registry usage
 
-Configuration management and secrets handling
+- Configuration management and secrets handling
 
 # INSTALLATION PREREQUISITES
-'Docker
+- Docker
 
-'Kubernetes (minikube, k3d, or Rancher Desktop)
+- Kubernetes (minikube, k3d, or Rancher Desktop)
 
-'Helm
+- Helm
 
-'Git
+- Git
 
-'Jenkins
+- Jenkins
 
-''Gogs
+- Gogs
 
-'kubectl
+- kubectl
 
-'Node.js / Python (depending on service stack)
+- Node.js / Python (depending on service stack)
 
-'Prometheus + Grafana
+- Prometheus + Grafana
 
-'Fluentd / Elasticsearch / Kibana
+- Fluentd / Elasticsearch / Kibana
 
 # SETUP
-'git clone https://github.com/Matt23332/Kubernets-Hackathon.git
+'''bash
+git clone https://github.com/Matt23332/Kubernets-Hackathon.git
 
 # STATUS OF PODS
 ![Screenshot (204)](https://github.com/user-attachments/assets/1a35345f-ccec-47cd-ba91-4c52e374b282)
