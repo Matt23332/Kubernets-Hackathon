@@ -17,28 +17,28 @@ Container registry usage
 Configuration management and secrets handling
 
 # INSTALLATION PREREQUISITES
-Docker
+'Docker
 
-Kubernetes (minikube, k3d, or Rancher Desktop)
+'Kubernetes (minikube, k3d, or Rancher Desktop)
 
-Helm
+'Helm
 
-Git
+'Git
 
-Jenkins
+'Jenkins
 
-Gogs
+''Gogs
 
-kubectl
+'kubectl
 
-Node.js / Python (depending on service stack)
+'Node.js / Python (depending on service stack)
 
-Prometheus + Grafana
+'Prometheus + Grafana
 
-Fluentd / Elasticsearch / Kibana
+'Fluentd / Elasticsearch / Kibana
 
 # SETUP
-git clone https://github.com/Matt23332/Kubernets-Hackathon.git
+'git clone https://github.com/Matt23332/Kubernets-Hackathon.git
 
 # STATUS OF PODS
 ![Screenshot (204)](https://github.com/user-attachments/assets/1a35345f-ccec-47cd-ba91-4c52e374b282)
