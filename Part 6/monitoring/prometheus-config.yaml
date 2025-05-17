@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+data:
+  prometheus.yml: |-   # Prometheus configuration file
+    global:
+      scrape_interval: 30s  # Default scrape interval
+     
+    scrape_configs:
+      - job_name: 'app'
+        kubernetes_sd_configs:
+        - role: pod 
+        relabel_configs:
+        - source_labels: 
+            - __meta_kubernetes_namespace
+          action: keep
+          regex: default
+        - source_labels: 
+            - __meta_kubernetes_pod_annotationpresent_prometheus_io_scrape  # Annotation to check if scraping is enabled
+            - __meta_kubernetes_pod_annotation_prometheus_io_scrape   # Annotation to check if scraping is enabled
+          regex: true;true   # Check if scraping is enabled
+          action: keep
+        - source_labels: 
+            - __meta_kubernetes_pod_annotationpresent_prometheus_io_path   # Annotation to check if path is present
+            - __meta_kubernetes_pod_annotation_prometheus_io_path   # Annotation to check if path is present
+          regex: true;(.*)
+          target_label:  __metrics_path__
+        - source_labels: 
+            - __meta_kubernetes_pod_annotationpresent_prometheus_io_target
+            - __meta_kubernetes_pod_annotation_prometheus_io_target
+          regex: true;(.*)
+          target_label:  __param_target
+        - source_labels: 
+            - __meta_kubernetes_pod_annotationpresent_prometheus_io_port
+            - __address__
+            - __meta_kubernetes_pod_annotation_prometheus_io_port
+          action: replace
+          regex: true;([^:]+)(?::\d+)?;(\d+)  # Extract port number
+          replacement: $1:$2
+          target_label: __address__
+        - source_labels: 
+            - __meta_kubernetes_pod_labelpresent_component
+            - __meta_kubernetes_pod_label_component
+          regex: true;(.*)   # Label to check if component is present
+          target_label: job
+        - source_labels: 
+            - __meta_kubernetes_pod_name  # Pod name
+          target_label: instance

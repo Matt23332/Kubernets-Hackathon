@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-config  # ConfigMap for Grafana configuration
+  namespace: monitoring
+data:
+  datasources.yaml: |-
+    apiVersion: 1
+    datasources:
+    - name: Prometheus      # Name of the data source
+      type: prometheus      # Type of the data source
+      access: proxy
+      url: http://prometheus:9090      # URL of the Prometheus service
+      basicAuth: false
+      version: 1    # Version of the data source
+      editable: true
+      isDefault: true
