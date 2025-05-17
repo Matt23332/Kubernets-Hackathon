@@ -40,6 +40,7 @@ The Widgetario Kubernetes Hackathon is a hands-on, multi-part lab series designe
 # SETUP
 '''bash
 git clone https://github.com/Matt23332/Kubernets-Hackathon.git
+'''
 
 # STATUS OF PODS
 ![Screenshot (204)](https://github.com/user-attachments/assets/1a35345f-ccec-47cd-ba91-4c52e374b282)
